@@ -1,0 +1,21 @@
+# spark operator 설치
+## namespace를 sparkopr로 통일
+## lastest 버전 설치
+## spark 3.2.0은 아직 지원하지 않음
+helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
+helm install sparkopr spark-operator/spark-operator --namespace sparkopr --create-namespace --values spark-operator-values.yaml
+
+# base 이미지 제작
+./bin/docker-image-tool.sh -r spark-base -t 3.1.2 -p ./kubernetes/dockerfiles/spark/bindings/python/Dockerfile build
+
+# 코드 수정 (main.py)
+# 도커 빌드 및 푸시 (github 사용)
+docker build -t sparkjob:average1.3 .
+docker push ghcr.io/dream2globe/sparkjob:average1.3
+
+# kubectl를 활용한 spark-submit
+## namespace와 service account 확인 필요(없어도 되지 않을지?)
+k create -f spark-submit.yaml
+
+# 드라이버 파드에서 결과 확인
+k logs pyspark-driver -n sparkopr

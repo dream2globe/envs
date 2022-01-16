@@ -1,0 +1,11 @@
+❯ k create deployment pod-kenkins --image=jenkins --dry-run -o yaml >> blue-jenkins-svc-deploy.yaml
+❯ k create -f blue-jenkins-svc-deploy.yaml
+namespace/blue created
+deployment.apps/pod-jenkins created
+
+❯ k expose deploy pod-jenkins --port 8080 --name srv-jenkins --dry-run -o yaml -n blue >> blue-jenkins-svc-deploy.yaml
+❯ k create -f blue-jenkins-svc-deploy.yaml
+service/srv-jenkins created
+
+❯ k run http-go --image=gasbugs/http-go
+> k exec http-go -- curl srv-jenkins.blue:8080 -s

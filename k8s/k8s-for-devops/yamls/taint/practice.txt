@@ -1,0 +1,13 @@
+# 테인트 추가하기
+k taint nodes kworker1 key1=value1:NoExecute
+
+# 테인트 확인하기
+k get nodes -o jsonpath="{.items[].spec.taints}"
+k get nodes -o json | jq '.items[].spec.taints'
+
+# Pod의 sec에 해당 명세가 필요함
+tolerations:
+- key: "key1"
+  operator: "Equal"   # or "Exists"
+  value: "value1"
+  effect: "NoSchedule"(해당 노드에 실행하지 않으나 실행되던 Pod는 유지함)   # or "NoExecute"(실행하던 파드도 다른 곳으로 옮겨감), "PreferNoSchedule"(가급적 회피)

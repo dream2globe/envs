@@ -1,0 +1,10 @@
+helm search hub spark
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm search repo bitnami
+
+k create ns mysql
+helm install mysqlname bitnami/mysql -n mysql
+helm uninstall mysqlname -n mysql
+helm list -n mysql
+helm repo remove bitnami

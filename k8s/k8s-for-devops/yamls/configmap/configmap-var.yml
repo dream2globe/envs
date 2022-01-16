@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-envars-test
+spec:
+  containers:
+    - name: main-container
+      image: gcr.io/google-samples/node-hello:1.0
+      env:
+        - name: envars
+          valueFrom:
+            configMapKeyRef:
+              name: game-config  # configmap 이름
+              key: game.properties  # 가져올 데이터의 키
+  restartPolicy: Never

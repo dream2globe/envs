@@ -1,0 +1,6 @@
+k get ns
+k get po --namespace kube-system
+k get pod --all-namespace 
+k get all -n office
+k create ns office --dry-run=client -o yaml > office-ns.yaml
+k run nginx --image nginx --port 80 -n office

@@ -1,0 +1,27 @@
+k create -f http-go-deployment.yaml --record=true
+
+k rollout status deployment rolled out  # 상태 확인
+k rollout history deployment http-go  # 10개 까지 히스토리 확인 가능
+
+k set image deployment http-go http-go=gasbugs/http-go:v3
+k exec http-go curl 127.0.0.1:8080
+
+k rollout undo deployment http-go
+k rollout undo deployment http-go --to-revision=1  # 특정 시점으로 돌리기
+k rollout pause deployment http-go  # 일시정지
+k rollout resume deployment http-go  # 다시시작
+
+k get deployments.apps http-go -o yaml  # 설정 확인
+k run --image alpine:3.4 alpin-deploy --dry-run -o yaml  # 설정을 yaml로 출력
+
+# 업데이트가 실패하는 경우
+- 부족한 할당량(insufficient quota)
+- 레디네스 프로브 실패(readiness probe failures)
+- 이미지 가져오기 오류(image pull errors)
+- 권한 부족(insufficient permissions)
+- 제한 자원(limit ranges)
+- 응용 프로그램 런타임 구성 오류(application runtime misconfiguraton)
+
+# 이미지에 호출 날려보기
+k run -it --rm --image busybox -- bash
+while true; do wget -O- -q 10.103.68.57:8080; sleep 1; done

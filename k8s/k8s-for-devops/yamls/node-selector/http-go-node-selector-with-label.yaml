@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: http-go-gpu
+  labels:
+    name: http-go-gpu
+spec:
+  containers:
+  - name: http-gp
+    image: gasbugs/http-go
+  nodeSelector:
+    gpu: "true"

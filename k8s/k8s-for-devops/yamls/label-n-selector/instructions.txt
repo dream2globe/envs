@@ -1,0 +1,6 @@
+k get pod -l 'env!=prod'
+k get pod -l "!env"
+k get pod --show-labels
+k label pod http-go test- # delete label called "test"
+k label pod http-go test=foo1 --overwrite # rename 
+k label pod http-go test=foo # add a label

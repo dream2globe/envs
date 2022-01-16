@@ -1,0 +1,8 @@
+k annotate pod http-go test1234=test1234 # key=value
+k create -f jenkins_manual_pod.yaml
+k port-forward jenkins-manual 8888:8080
+k logs jenkins-manual
+k get pod jenkins-manual -o yaml
+k delete pod --all
+k delete all --all
+

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-volume-test
+spec:
+  containers:
+    - name: main-container
+      image: gcr.io/google-samples/node-hello:1.0
+      volumeMounts:
+        - mountPath: /etc/config  # configmap 데이터가 저장되는 장소
+          name: config-volume
+  volumes:
+    - name: config-volume  
+      configMap:
+        name: game-config  # configmap 이름
+  restartPolicy: Never

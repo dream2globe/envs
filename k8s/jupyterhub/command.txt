@@ -1,0 +1,16 @@
+# helm 레포지토리 등록
+helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
+helm repo update
+
+# helm 차트에서 values 파일 확인
+helm show values jupyterhub/jupyterhub > jupyterhub.yaml
+
+# Install jupyterhub
+helm install jupyterhub jupyterhub/jupyterhub --values jupyterhub.yaml --namespace jhub --create-namespac
+
+# Update values.yaml of jupyterhub
+helm upgrade --cleanup-on-fail \
+  --install jupyterhub jupyterhub/jupyterhub \
+  --namespace jhub \
+  --create-namespace \
+  --values jupyterhub.yaml

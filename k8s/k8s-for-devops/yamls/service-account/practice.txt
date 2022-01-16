@@ -1,0 +1,10 @@
+# 명령어
+k create sa sa-test  # secret이 같이 만들어짐
+
+# pod 생성 후 진입
+k apply -f nginx-sa.yaml
+k exec -it sa-test -- bash
+cd /var/run/secrets/kubernetes.io/serviceaccount/
+TOKEN=$(cat token)
+curl https://$KUBERNETES_SERVICE_HOST/api --header "Authorization: Bearer $TOKEN" --insecure
+curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/default/pods --header "Authorization: Bearer $TOKEN" --insecure  # 권한이 없어서 실패함

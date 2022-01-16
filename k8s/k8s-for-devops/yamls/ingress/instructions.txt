@@ -1,0 +1,31 @@
+# 설치 
+git clone https://github.com/kubernetes/ingress-nginx/
+kubectl apply -k `pwd`/ingress-nginx/deploy/static/provider/baremetal/
+kubectl delete validatingwebhookconfigurations.admissionregistration.k8s.io ingress-nginx-admission
+
+# 인그레스 설정
+cat <<EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-go-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /welcome/test
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Exact
+            path: /welcome/test
+            backend:
+              service:
+                name: http-go
+                port: 
+                  number: 80
+EOF
+
+# 실행
+kubectl create deployment http-go --image=gasbugs/http-go:ingress # 인그레스 테스트용 http-go
+kubectl expose deployment http-go --port=80 --target-port=8080
+kubectl k8s-worker1:30248

@@ -1,0 +1,19 @@
+# 연습문제
+
+# 1. http-go라는 이름을 가진 ServiceAccount를 생성하고 http-go 포드를 생성해 http-go 서비스 어카운트를 사용하도록 설정
+
+# 2. apiserver에 user.csv 토큰을 등록하여 재시작
+
+sudo vim /etc/kubernetes/manifests/kube-apiserver.yaml
+--token-auth-file=/hostpath에 되어있는 경로를 사용/users.csv # 내용 추가
+
+kubectl config set-credentials user1 --token=password1 # kubectl에 사용자 추가
+kubectl config set-context user1-context --cluster=kubernetes --namespace=frontend --user=user1 # kubectl에 사용자 추가
+kubectl config use-context user1-context
+
+
+# 내용 추가후에는 파일이 없음
+
+# 발생하는 문제는?
+# docker logs를 사용하여 해결 방법 제시
+# 정상적으로 서비스가 시작되었다면 유저정보를 등록하고 등록한 유저 권한으로 k get pod 요청을 수행

@@ -1,0 +1,18 @@
+# namespace 안에서 사용 가능한 resource 양을 정하는 방법
+## 적용할 namespace를 정의함
+kubectl create namespace quota-mem-cpu-example
+kubectl apply -f https://k8s.io/examples/admin/resource/quota-mem-cpu.yaml --namespace=quota-mem-cpu-example
+
+# yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: mem-cpu-demo
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi
+
+# quota를 위반하면 pod가 생성되지 않고 forbidden 에러가 발생함

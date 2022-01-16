@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: http-go
+  labels:
+    name: http-go
+spec:
+  containers:
+  - name: http-gp
+    image: gasbugs/http-go
+  nodeName: kworker2

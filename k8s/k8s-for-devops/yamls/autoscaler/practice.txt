@@ -1,0 +1,13 @@
+# vpa(pod의 리소스가 증가함), ca(사용 노드가 증가함) 방법은 클라우드 제공 업체에서 활용가능
+# k8s는 hpa(pod의 수를 늘림) 방법으로 스캐일링 함
+k autoscale deployment myapp --max 6 --min 4 --cpu-percent 50
+
+# check the current status fo autoscaler by running
+k get hpa
+
+# run commands using busybox
+kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
+kubectl run -it load-generator --rm --image=busybox -- /bin/sh
+
+# documents
+https://kubernetes.io/ko/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/

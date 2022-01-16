@@ -1,0 +1,17 @@
+# LimitRanger 설정을 위해서는 먼저 kube-apiserver.yaml 에 설정을 추가
+sudo vim /etc/kubernetes/manifests/kube-apiserver.yaml
+--enable-admission-plugins=NodeRestriction,LimitRanger  # LimitRanger 추가
+
+# namesapce 설정
+kubectl create namespace default-mem-example
+
+# demo yaml setting
+kubectl apply -f https://k8s.io/examples/admin/resource/memory-defaults.yaml --namespace=default-mem-example
+
+# check
+kubectl describe limitranges
+
+# limit이나 range가 기본 설정보다 넘는 경우는 replicaset에서 다음과 같은 에러를 확인할 수 있음
+## maximum cpu usage per Container is 800m, but limit is 1
+
+# namespace의 정책을 결정하는 방법으로 namespace의 총량을 결정하는 resourcequata와 차이가 있음

@@ -1,0 +1,6 @@
+# Create the configmap
+kubectl create configmap game-config --from-file=configure-pod-container/configmap/
+
+# Check data of configmap
+kubectl describe configmaps game-config
+

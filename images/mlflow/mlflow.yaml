@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow-webui-service
+  labels:
+    app: mlflow
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  selector:
+    app: mlflow
+    role: web
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+  labels:
+    app: mlflow
+spec:
+  selector:
+    matchLabels:
+      app: mlflow
+      role: web
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mlflow
+        role: web
+    spec:
+      containers:
+      - image: dream2globe/mlflow:1.0
+        name: mlflow-web
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          value: "SG9BK7JGV47AXSTK96Q8"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "0CMK2KZU010JStmDEbyhBoCQntnLdjA4DLJ6sXwU"
+        - name: MLFLOW_S3_ENDPOINT_URL
+          value: "http://192.168.0.240"
+        - name: MLFLOW_S3_IGNORE_TLS
+          value: "false"
+        ports:
+        - containerPort: 5000
+          name: web-ui-port

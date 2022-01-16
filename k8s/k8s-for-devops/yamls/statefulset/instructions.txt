@@ -1,0 +1,8 @@
+# 관련글 : https://blog.naver.com/isc0304/221885403537
+
+kubectl scale statefulset web --replicas 5
+kubectl scale statefulset web --replicas 1
+kubectl get pvc
+kubectl delete statefulsets web  # 파드를 지워도 pvc는 남아있음
+kubectl get pvc
+kubectl edit statefulset web

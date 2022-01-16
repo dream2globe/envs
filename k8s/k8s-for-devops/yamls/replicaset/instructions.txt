@@ -1,0 +1,3 @@
+k scale rc http-go --replicas=5
+k edit rs rs-nginx  # pod name
+k apply -f http-go-rc-v2.yaml
